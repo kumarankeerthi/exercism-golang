@@ -3,26 +3,21 @@ package dna
 
 import (
 	"errors"
-	"strings"
 )
 
 type Histogram map[rune]int
 
 type DNA string
 
-const validNucleotide = "ACGT"
-
 // Counts calculate the no.of times a nucleotide occurs in a given DNA strand
 func (d DNA) Counts() (Histogram, error) {
 	h := Histogram{'A': 0, 'C': 0, 'G': 0, 'T': 0}
-	if d == "" {
-		return h, nil
-	}
 	for _, nucleotide := range d {
-		if !(strings.Contains(validNucleotide, string(nucleotide))) {
+		_, ok := h[nucleotide]
+		if !ok {
 			return h, errors.New("invalid nucleotide in the given DNA strand")
 		}
-		h[nucleotide] += 1
+		h[nucleotide]++
 	}
 	return h, nil
 }
